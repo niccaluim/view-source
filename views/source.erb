@@ -8,10 +8,17 @@
         $(".tag").removeClass("highlighted");
         $(".tag-" + name).addClass("highlighted");
       }
+      function showSource(which) {
+        $(".source").hide();
+        $("#" + which).show();
+      }
+      $(document).ready(function (){
+        $("#prettified").hide();
+      });
     </script>
     <style type="text/css">
       body { background: #242226; color: #cac5d0; }
-      #source { font-family: monospace; line-height: 135%; }
+      .source { font-family: monospace; line-height: 135%; white-space: pre-wrap; }
       .highlighted { background: #ff7f7f; color: #242226; }
     </style>
   </head>
@@ -26,7 +33,10 @@
       </ol>
     </div>
     <div id="source">
-      <%= @tagged_html.to_s %>
+      <a href='javascript:showSource("raw")'>Raw</a>
+      <a href='javascript:showSource("prettified")'>Prettified</a> (converts to XHTML; may be lossy)
+      <div class="source" id="raw"><%= @html.to_s %></div>
+      <div class="source" id="prettified"><%= @pretty_html.to_s %></div>
     </div>
   </body>
 </html>

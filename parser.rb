@@ -18,7 +18,7 @@ def summarize_and_tag(html)
 
     m_start, m_end = match.offset(0)
 
-    tagged_html << Rack::Utils.escape_html(html[pos...m_start]).gsub(' ', '&nbsp;')
+    tagged_html << Rack::Utils.escape_html(html[pos...m_start])
     tagged_html << "<span class='tag tag-#{tag_name}'>"
     tagged_html << Rack::Utils.escape_html(match[0])
     tagged_html << "</span>"
@@ -26,7 +26,6 @@ def summarize_and_tag(html)
     pos = m_end
   end
   tagged_html << Rack::Utils.escape_html(html[pos, html.size])
-  tagged_html.gsub!("\n", "<br/>")
 
   return [summary, tagged_html]
 end

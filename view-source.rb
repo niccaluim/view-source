@@ -5,6 +5,7 @@ require 'bundler/setup'
 require File.dirname(__FILE__) + '/parser'
 require 'sinatra'
 require 'httpclient'
+require 'nokogiri'
 
 helpers do
   def h(text)
@@ -29,7 +30,11 @@ end
 get '/source' do
   client = HTTPClient.new
   raw = client.get_content(params['uri'])
-  @summary, @tagged_html = summarize_and_tag(raw)
+  prettified = Nokogiri::HTML(raw).to_xhtml(indent: 2)
+
+  @summary, @html = summarize_and_tag(raw)
+  _, @pretty_html = summarize_and_tag(prettified)
+
   @uri = params['uri']
   erb :source
 end
