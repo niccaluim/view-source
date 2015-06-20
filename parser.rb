@@ -1,6 +1,19 @@
 require 'rack/utils'
 
-TAG_RE = /<\s*(\/?)\s*([[:alnum:]-]+)(\s+[[:alnum:]-]+\s*=\s*"[^"]+")*\s*(\/?)\s*>/
+TAG_RE = %r{
+  <
+    \s* (/?)                    # closing tag?
+    \s* ([[:alnum:]-]+)         # tag name
+    (
+      \s+ [[:alnum:]-]+ \s* =   # attribute name
+      \s* ( ("[^"]+")           # "attribute value"
+          | ('[^']+')           # 'attribute value'
+          | ([^\s>]+) )         # attribute value (bare)
+    )*
+    \s* (/?)                    # self-closing?
+    \s*
+  >
+}x
 
 # Tags with content that should not be scanned for other tags.
 DATA_TAGS = ['script', 'style']
