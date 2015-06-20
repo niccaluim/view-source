@@ -2,6 +2,9 @@ require 'rack/utils'
 
 TAG_RE = /<\s*(\/?)\s*([[:alnum:]-]+)(\s+[[:alnum:]-]+\s*=\s*"[^"]+")*\s*(\/?)\s*>/
 
+# Tags with content that should not be scanned for other tags.
+DATA_TAGS = ['script', 'style']
+
 def summarize_and_tag(html)
   summary = {}
   tagged_html = ''
@@ -23,7 +26,13 @@ def summarize_and_tag(html)
     tagged_html << Rack::Utils.escape_html(match[0])
     tagged_html << "</span>"
 
-    pos = m_end
+    if is_open && DATA_TAGS.include?(tag_name)
+      close_idx = html.index(%r{<\s*/\s*#{Regexp.quote(tag_name)}\s*>}x, m_end)
+      pos = close_idx || html.length
+      tagged_html << Rack::Utils.escape_html(html[m_end...pos])
+    else
+      pos = m_end
+    end
   end
   tagged_html << Rack::Utils.escape_html(html[pos, html.size])
 
