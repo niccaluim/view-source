@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>View Source</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+      function highlightTags(name) {
+        $(".tag").removeClass("highlighted");
+        $(".tag-" + name).addClass("highlighted");
+      }
+    </script>
+    <style type="text/css">
+      body { background: #242226; color: #cac5d0; }
+      #source { font-family: monospace; line-height: 135%; }
+      .highlighted { background: #ff7f7f; color: #242226; }
+    </style>
+  </head>
+  <body>
+    <h1>HTML fetched from <a href="<%=h @uri %>"><%=h @uri %></a></h1>
+    <div id="summary">
+      <ol>
+        <% @summary.keys.sort.each do |tag_name| %>
+          <li><a href='javascript:highlightTags("<%=h tag_name %>")'
+                 class="tag tag-<%=h tag_name %>"><%=h tag_name %></a> (<%= @summary[tag_name] %>)</li>
+        <% end %>
+      </ol>
+    </div>
+    <div id="source">
+      <%= @tagged_html.to_s %>
+    </div>
+  </body>
+</html>
