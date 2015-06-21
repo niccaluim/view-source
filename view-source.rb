@@ -30,11 +30,15 @@ end
 get '/source' do
   client = HTTPClient.new
   raw = client.get_content(params['uri'])
-  prettified = Nokogiri::HTML(raw).to_xhtml(indent: 2)
+  doc = Nokogiri::HTML(raw)
+  prettified = doc.to_xhtml(indent: 2)
 
   @summary, @html = summarize_and_tag(raw)
   _, @pretty_html = summarize_and_tag(prettified)
 
   @uri = params['uri']
+  title_tag = doc.xpath('//head/title')
+  @title = title_tag.empty? ? @uri : title_tag[0].text
+
   erb :source
 end

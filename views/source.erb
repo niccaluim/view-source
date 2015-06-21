@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>View Source</title>
+    <title>View Source: <%=h @title || @uri %></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript">
       function highlightTags(name) {
@@ -23,7 +23,7 @@
   </head>
   <body>
     <div id="summary">
-      <h1>HTML fetched from <a href="<%=h @uri %>"><%=h @uri %></a></h1>
+      <h1>HTML fetched from <a href="<%=h @uri %>" target="blank"><%=h @title || @uri %></a></h1>
       <h2>Tags</h2>
       <ul>
         <% @summary.keys.sort.each do |tag_name| %>
