@@ -3,22 +3,7 @@
   <head>
     <title>View Source: <%=h @title || @uri %></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script type="text/javascript">
-      function highlightTags(name) {
-        $(".tag").removeClass("highlighted");
-        $(".tag-" + name).addClass("highlighted");
-      }
-      function showSource(which) {
-        $(".source").hide();
-        $("#" + which).show();
-        $(".display-mode").removeClass("highlighted");
-        $("#button-" + which).addClass("highlighted");
-      }
-      $(document).ready(function (){
-        $('#summary').next().css('margin-top', $('#summary').height())
-        $("#prettified").hide();
-      });
-    </script>
+    <script src="/source.js"></script>
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
