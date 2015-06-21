@@ -49,5 +49,5 @@ def summarize_and_tag(html)
   end
   tagged_html << Rack::Utils.escape_html(html[pos, html.size])
 
-  return [summary, tagged_html]
+  [summary, tagged_html]
 end

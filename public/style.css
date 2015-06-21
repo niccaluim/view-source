@@ -26,6 +26,14 @@ body {
   cursor: pointer;
 }
 
+#index #message {
+  color: #ff7f7f;
+}
+
+#index #explanation {
+  margin-bottom: 2em;
+}
+
 .source {
   font-family: monospace;
   line-height: 135%;

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/style.css">
   <body id="index">
     <div id="message"><%=h @message %></div>
+    <div id="explanation" class="note"><%=h @explanation %></div>
     <form method="get" action="/source">
       <input type="text" name="uri" value="http://">
       <input type="submit" value="View Source">

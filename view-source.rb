@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require File.dirname(__FILE__) + '/parser'
+require File.dirname(__FILE__) + '/util'
 require 'sinatra'
 require 'httpclient'
 require 'nokogiri'
@@ -18,15 +19,26 @@ get '/' do
 end
 
 get '/source' do
-  client = HTTPClient.new
-  raw = client.get_content(params['uri'])
+  @uri = validate_uri(params['uri'])
+  if @uri.nil?
+    @message = "\"#{params['uri']}\" isn't a valid HTTP[S] URL."
+    return erb :index
+  end
+
+  begin
+    client = HTTPClient.new
+    raw = client.get_content(@uri)
+  rescue => e
+    @message = "Couldn't retrieve #{@uri}."
+    @explanation = e.message
+    return erb :index
+  end
   doc = Nokogiri::HTML(raw)
   prettified = doc.to_xhtml(indent: 2)
 
   @summary, @html = summarize_and_tag(raw)
   _, @pretty_html = summarize_and_tag(prettified)
 
-  @uri = params['uri']
   title_tag = doc.xpath('//head/title')
   @title = title_tag.empty? ? @uri : title_tag[0].text
 
