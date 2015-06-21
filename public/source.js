@@ -11,6 +11,10 @@ function showSource(which) {
 }
 
 $(document).ready(function (){
-  $('#summary').next().css('margin-top', $('#summary').height())
   $("#prettified").hide();
+  // A Heisenbug sets the margin here to 640px sometimes. Running it in
+  // a timeout seems to fix that.
+  window.setTimeout(function (){
+    $('#summary').next().css('margin-top', $('#summary').height())
+  }, 1);
 });
