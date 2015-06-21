@@ -19,12 +19,14 @@ get '/' do
 end
 
 get '/source' do
+  # Validate URI.
   @uri = validate_uri(params['uri'])
   if @uri.nil?
     @message = "\"#{params['uri']}\" isn't a valid HTTP[S] URL."
     return erb :index
   end
 
+  # Fetch HTML.
   begin
     client = HTTPClient.new
     raw = client.get_content(@uri)
@@ -34,15 +36,15 @@ get '/source' do
     return erb :index
   end
   doc = Nokogiri::HTML(raw)
-  prettified = doc.to_xhtml(indent: 2)
-
   raw = fix_encoding(raw, doc)
 
-  @summary, @html = summarize_and_tag(raw)
-  _, @pretty_html = summarize_and_tag(prettified)
-
+  # Find the page's title.
   titles = doc.xpath('//head/title')
   @title = titles.empty? ? @uri : titles[0].text
+
+  # Generate summaries and markup.
+  @summary, @html = summarize_and_tag(raw)
+  _, @pretty_html = summarize_and_tag(doc.to_xhtml(indent: 2))
 
   erb :source
 end
