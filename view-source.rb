@@ -6,7 +6,6 @@ require File.dirname(__FILE__) + '/parser'
 require File.dirname(__FILE__) + '/util'
 require File.dirname(__FILE__) + '/cache'
 require 'sinatra'
-require 'httpclient'
 require 'nokogiri'
 
 helpers do
