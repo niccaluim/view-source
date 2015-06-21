@@ -4,6 +4,28 @@ body {
   font-family: sans-serif;
 }
 
+#index {
+  background: #171519;
+  text-align: center;
+  margin-top: 10em;
+}
+
+#index input {
+  font-size: 150%;
+  background: #242226;
+  color: #cac5d0;
+}
+
+#index input[type=submit] {
+  background: #1a7ebb;
+  border: 2px solid #1a7ebb;
+  border-radius: 0.2em;
+}
+
+#index input[type=submit]:hover {
+  cursor: pointer;
+}
+
 .source {
   font-family: monospace;
   line-height: 135%;

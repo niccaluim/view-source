@@ -14,17 +14,7 @@ helpers do
 end
 
 get '/' do
-  <<EOS
-<html>
-<head><title>View Source</title></head>
-<body>
-  <form method="get" action="/source">
-    <input type="text" name="uri"/>
-    <input type="submit" value="View Source"/>
-  </form>
-</body>
-</html>
-EOS
+  erb :index
 end
 
 get '/source' do

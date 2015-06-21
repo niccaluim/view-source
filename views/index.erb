@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head><title>View Source</title></head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function (){
+      $("input[name='uri']").focus();
+      $("input[name='uri']").get(0).setSelectionRange(7, 7);
+    });
+  </script>
+  <link rel="stylesheet" href="/style.css">
+  <body id="index">
+    <div id="message"><%=h @message %></div>
+    <form method="get" action="/source">
+      <input type="text" name="uri" value="http://">
+      <input type="submit" value="View Source">
+    </form>
+  </body>
+</html>
