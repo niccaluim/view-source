@@ -18,7 +18,7 @@ def get_content(uri, client = HTTPClient.new)
     if cacheable?(response)
       ttl = ttl(response)
       response.peer_cert = nil # OpenSSL certificates can't be marshaled
-      CACHE.value.set(uri, Marshal.dump(response), ex: ttl)
+      CACHE.value.set(uri, Marshal.dump(response), ex: ttl) rescue nil
     end
   end
 
