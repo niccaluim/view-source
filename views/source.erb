@@ -11,30 +11,35 @@
       function showSource(which) {
         $(".source").hide();
         $("#" + which).show();
+        $(".display-mode").removeClass("highlighted");
+        $("#button-" + which).addClass("highlighted");
       }
       $(document).ready(function (){
+        $('#summary').next().css('margin-top', $('#summary').height())
         $("#prettified").hide();
       });
     </script>
-    <style type="text/css">
-      body { background: #242226; color: #cac5d0; }
-      .source { font-family: monospace; line-height: 135%; white-space: pre-wrap; }
-      .highlighted { background: #ff7f7f; color: #242226; }
-    </style>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <h1>HTML fetched from <a href="<%=h @uri %>"><%=h @uri %></a></h1>
     <div id="summary">
-      <ol>
+      <h1>HTML fetched from <a href="<%=h @uri %>"><%=h @uri %></a></h1>
+      <h2>Tags</h2>
+      <ul>
         <% @summary.keys.sort.each do |tag_name| %>
           <li><a href='javascript:highlightTags("<%=h tag_name %>")'
-                 class="tag tag-<%=h tag_name %>"><%=h tag_name %></a> (<%= @summary[tag_name] %>)</li>
+                 class="tag tag-<%=h tag_name %>"
+              ><%=h tag_name %></a>&nbsp;<span class="note">(<%= @summary[tag_name] %>)</span></li>
         <% end %>
-      </ol>
+      </ul>
+      <h2>Display Mode</h2>
+      <ul>
+        <li><a href='javascript:showSource("raw")' id="button-raw" class="display-mode highlighted">Raw</a></li>
+        <li><a href='javascript:showSource("prettified")' id="button-prettified" class="display-mode">Prettified</a></li>
+      </ul>
+      <p class="note">Prettified mode converts to XHTML and may be lossy.</p>
     </div>
     <div id="source">
-      <a href='javascript:showSource("raw")'>Raw</a>
-      <a href='javascript:showSource("prettified")'>Prettified</a> (converts to XHTML; may be lossy)
       <div class="source" id="raw"><%= @html.to_s %></div>
       <div class="source" id="prettified"><%= @pretty_html.to_s %></div>
     </div>
