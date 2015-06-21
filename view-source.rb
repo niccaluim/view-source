@@ -4,6 +4,7 @@ require 'rubygems'
 require 'bundler/setup'
 require File.dirname(__FILE__) + '/parser'
 require File.dirname(__FILE__) + '/util'
+require File.dirname(__FILE__) + '/cache'
 require 'sinatra'
 require 'httpclient'
 require 'nokogiri'
@@ -28,8 +29,7 @@ get '/source' do
 
   # Fetch HTML.
   begin
-    client = HTTPClient.new
-    raw = client.get_content(@uri)
+    raw = get_content(@uri)
   rescue => e
     @message = "Couldn't retrieve #{@uri}."
     @explanation = e.message

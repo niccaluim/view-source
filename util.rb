@@ -37,3 +37,15 @@ def fix_encoding(raw, doc)
     raw.force_encoding(charsets[0].value)
   end
 end
+
+# Encapsulates a value that is instantiated only once, and not until it
+# is needed.
+class LazyMemoizedValue
+  def initialize(&generator)
+    @generator = generator
+  end
+
+  def value
+    @value ||= @generator.call
+  end
+end
