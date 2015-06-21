@@ -36,11 +36,13 @@ get '/source' do
   doc = Nokogiri::HTML(raw)
   prettified = doc.to_xhtml(indent: 2)
 
+  raw = fix_encoding(raw, doc)
+
   @summary, @html = summarize_and_tag(raw)
   _, @pretty_html = summarize_and_tag(prettified)
 
-  title_tag = doc.xpath('//head/title')
-  @title = title_tag.empty? ? @uri : title_tag[0].text
+  titles = doc.xpath('//head/title')
+  @title = titles.empty? ? @uri : titles[0].text
 
   erb :source
 end

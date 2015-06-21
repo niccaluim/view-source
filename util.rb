@@ -23,3 +23,17 @@ def validate_uri(uri_s)
 rescue URI::InvalidURIError
   nil
 end
+
+# Sometimes HTTPClient gets the string encoding wrong. (Try loading
+# facebook.com, for example.) This looks for a meta tag with a charset
+# and forcibly switches the encoding of the raw HTML. `raw` is the raw
+# HTML and `doc` is the Nokogiri document. Returns `raw` with the
+# correct encoding.
+def fix_encoding(raw, doc)
+  charsets = doc.xpath('//head/meta/@charset')
+  if charsets.empty?
+    raw
+  else
+    raw.force_encoding(charsets[0].value)
+  end
+end
