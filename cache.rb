@@ -1,5 +1,6 @@
 require 'hiredis'
 require 'redis'
+require 'httpclient'
 require File.dirname(__FILE__) + '/util'
 
 CACHE = LazyMemoizedValue.new { Redis.new }
@@ -24,6 +25,8 @@ def get_content(uri, client = HTTPClient.new)
 
   if [301, 302, 303, 307].include?(response.status) && !response.header['Location'].empty?
     get_content(response.header['Location'].first, client)
+  elsif response.status != 200
+    raise HTTPClient::BadResponseError.new("Unexpected response: #{response.status}", response)
   else
     response.content
   end
